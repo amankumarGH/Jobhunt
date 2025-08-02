@@ -1,4 +1,10 @@
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -21,6 +27,18 @@ const Navbar = () => {
               <Link>Browser</Link>
             </li>
           </ul>
+
+          <Popover >
+            <PopoverTrigger asChild className="cursor-pointer">
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+              </Avatar>
+            </PopoverTrigger>
+            <PopoverContent>
+              <h1>hello</h1>
+            </PopoverContent>
+          </Popover>
+
           <div className="flex gap-3">
             <Link to="/login">
               <Button className="p-5">Login</Button>
