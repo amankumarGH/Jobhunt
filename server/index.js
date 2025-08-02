@@ -4,6 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./db/database.js";
 import userRoute from "./routes/user.routes.js";
+import companyRoute from "./routes/company.routes.js";
+import jobRoute from "./routes/job.routes.js";
 
 dotenv.config();
 
@@ -21,6 +23,8 @@ app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 5000;
 
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/company", companyRoute);
+app.use("/api/v1/job", jobRoute);
 
 app.listen(port, () => {
   connectDB();

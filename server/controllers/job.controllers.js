@@ -1,5 +1,6 @@
 import { Job } from "../models/job.models.js";
 
+//admin will post
 export const postJob = async (req, res) => {
   try {
     const {
@@ -59,11 +60,48 @@ export const postJob = async (req, res) => {
   }
 };
 
+// student will get job
 export const getJob = async (req, res) => {
   try {
+  } catch (error) {
+    return res.status(500).json({
+      message: error,
+      success: false,
+    });
+  }
+};
 
-      
+//student
+export const getJobById = async (req, res) => {
+  try {
+    const jobId = req.params.id;
 
+    const job = await Job.findById(jobId);
+
+    if (!job) {
+      return res.status(404).json({
+        message: "Job not found",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      job,
+      success: false,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error,
+      success: false,
+    });
+  }
+};
+
+export const getAdminJob = async (req, res) => {
+  try {
+    const adminId = req.id;
+
+    
   } catch (error) {
     return res.status(500).json({
       message: error,
