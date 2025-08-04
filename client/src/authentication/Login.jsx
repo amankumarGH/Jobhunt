@@ -1,11 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { USER_END_POINT } from "@/utils/constant";
 import { Label } from "@radix-ui/react-label";
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -18,7 +23,21 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(loginData);
+    try {
+      const res = await axios.post(`${USER_END_POINT}/login`, loginData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   };
 
   return (
@@ -56,8 +75,8 @@ const Login = () => {
                 type="radio"
                 name="role"
                 id="student"
-                value="student"
-                checked={loginData.role === "student"}
+                value="Student"
+                checked={loginData.role === "Student"}
                 onChange={handleLoginData}
               />
               <Label htmlFor="student">Student</Label>
@@ -67,8 +86,8 @@ const Login = () => {
                 type="radio"
                 name="role"
                 id="recruiter"
-                value="recruiter"
-                checked={loginData.role === "recruiter"}
+                value="Recruiter"
+                checked={loginData.role === "Recruiter"}
                 onChange={handleLoginData}
               />
               <Label htmlFor="recruiter">Recruiter</Label>
