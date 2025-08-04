@@ -61,8 +61,26 @@ export const postJob = async (req, res) => {
 };
 
 // student will get job
-export const getJob = async (req, res) => {
+export const getAllJob = async (req, res) => {
   try {
+    // const { userId } = req.body;
+
+    // const jobFind = await Job({ createdBy: userId });
+
+    const jobsFind = await Job.find().populate("company").populate("createdBy");
+
+    if (!jobsFind) {
+      return res.status(404).json({
+        message: "Jobs not found.",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      message: "All jobs fetched successfully",
+      success: true,
+      jobsFind,
+    });
   } catch (error) {
     return res.status(500).json({
       message: error,
@@ -76,9 +94,11 @@ export const getJobById = async (req, res) => {
   try {
     const jobId = req.params.id;
 
-    const job = await Job.findById(jobId);
+    const searchJobId = await Job.findById(jobId)
+      .populate("company")
+      .populate("createdBy");
 
-    if (!job) {
+    if (!searchJobId) {
       return res.status(404).json({
         message: "Job not found",
         success: false,
@@ -86,8 +106,8 @@ export const getJobById = async (req, res) => {
     }
 
     return res.status(200).json({
-      job,
-      success: false,
+      searchJobId,
+      success: true,
     });
   } catch (error) {
     return res.status(500).json({
@@ -101,7 +121,23 @@ export const getAdminJob = async (req, res) => {
   try {
     const adminId = req.id;
 
-    
+    //we use popute just to print the all data of that schema/data
+    //like populating the company means it will console all the values of the company otherwise only id will print
+    const jobs = await Job.find({ createdBy: adminId })
+      .populate("company")
+      .populate("createdBy");
+
+    if (!jobs) {
+      return res.status(404).json({
+        message: "Jobs not found.",
+        success: false,
+      });
+    }
+
+    return res.status(200).json({
+      jobs,
+      success: true,
+    });
   } catch (error) {
     return res.status(500).json({
       message: error,

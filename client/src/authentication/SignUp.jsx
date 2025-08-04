@@ -1,17 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
+import { USER_END_POINT } from "@/utils/constant";
 import { Label } from "@radix-ui/react-label";
+import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const [signupData, setSignupData] = useState({
-    fullname: "",
+    fullName: "",
     email: "",
     password: "",
     phoneNumber: "",
-    role:"",
+    role: "",
     file: "",
   });
 
@@ -25,6 +30,30 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(signupData);
+    try {
+      const formData = new FormData();
+      formData.append("fullName", signupData.fullName);
+      formData.append("email", signupData.email);
+      formData.append("password", signupData.password);
+      formData.append("phoneNumber", signupData.phoneNumber);
+      formData.append("role", signupData.role);
+      formData.append("file", signupData.file); // file upload
+
+      const res = await axios.post(`${USER_END_POINT}/signup`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data", // Important for file upload
+        },
+        withCredentials: true,
+      });
+
+      if (res.data.success) {
+        navigate("/login");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      // toast.error(error?.response?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -34,19 +63,19 @@ const SignUp = () => {
         <div>
           <Label htmlFor="fullname">FullName</Label>
           <Input
-            type="fullname"
+            type="text"
             id="fullname"
             placeholder="Enter Your FullName"
             className="py-4"
-            name="fullname"
-            value={signupData.fullname}
+            name="fullName"
+            value={signupData.fullName}
             onChange={handleSignupData}
           />
         </div>
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
-            type="email"
+            type="text"
             id="email"
             placeholder="Enter Your Email"
             className="py-4"
@@ -70,7 +99,7 @@ const SignUp = () => {
         <div>
           <Label htmlFor="pswd">Password</Label>
           <Input
-            type="Password"
+            type="password"
             id="pswd"
             placeholder="Enter Your Password"
             className="py-4"
@@ -87,8 +116,8 @@ const SignUp = () => {
                   type="radio"
                   name="role"
                   id="student"
-                  value="student"
-                  checked={signupData.role === "student"}
+                  value="Student"
+                  checked={signupData.role === "Student"}
                   onChange={handleSignupData}
                 />
                 <Label htmlFor="student">Student</Label>
@@ -98,8 +127,8 @@ const SignUp = () => {
                   type="radio"
                   name="role"
                   id="recruiter"
-                  value="recruiter"
-                  checked={signupData.role === "recruiter"}
+                  value="Recruiter"
+                  checked={signupData.role === "Recruiter"}
                   onChange={handleSignupData}
                 />
                 <Label htmlFor="recruiter">Recruiter</Label>
@@ -114,6 +143,7 @@ const SignUp = () => {
               id="picture"
               accept="image/*"
               type="file"
+              name="file"
               className=" file:text-black file:font-bold py-2 cursor-pointer"
               onChange={handleFileData}
             />
