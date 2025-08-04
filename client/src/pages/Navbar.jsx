@@ -5,10 +5,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import React from "react";
+import { LogOut, User2 } from "lucide-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+  const [logged, setlogged] = useState(false);
+
   return (
     <div className="p-7 w-[90%] flex mx-auto">
       <div className="flex justify-between w-full items-center">
@@ -28,25 +31,48 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <Popover >
-            <PopoverTrigger asChild className="cursor-pointer">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-              </Avatar>
-            </PopoverTrigger>
-            <PopoverContent>
-              <h1>hello</h1>
-            </PopoverContent>
-          </Popover>
-
-          <div className="flex gap-3">
-            <Link to="/login">
-              <Button className="p-5">Login</Button>
-            </Link>
-            <Link to="/signup">
-              <Button className="p-5">SignUp</Button>
-            </Link>
-          </div>
+          {!logged ? (
+            <div className="flex gap-3">
+              <Link to="/login">
+                <Button className="p-5" variant="outline">Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="p-5">SignUp</Button>
+              </Link>
+            </div>
+          ) : (
+            <Popover>
+              <PopoverTrigger asChild className="cursor-pointer">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                </Avatar>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <div className="flex gap-2 space-y-2">
+                  <Avatar className="cursor-pointer mt-3">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                  </Avatar>
+                  <div>
+                    <h4 className="font-medium">Aman kumar</h4>
+                    <p className="text-sm text-muted-foreground">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Beatae asperiores illum
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col text-gray-600 my-2">
+                  <div className="flex items-center w-fit gap-2">
+                    <User2 />
+                    <Button variant="link">View Profile</Button>
+                  </div>
+                  <div className="flex items-center w-fit gap-2">
+                    <LogOut />
+                    <Button variant="link">Logout</Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          )}
         </div>
       </div>
     </div>

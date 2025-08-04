@@ -1,13 +1,35 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RadioGroup } from "@/components/ui/radio-group";
 import { Label } from "@radix-ui/react-label";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const [signupData, setSignupData] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+    phoneNumber: "",
+    role:"",
+    file: "",
+  });
+
+  const handleSignupData = (e) => {
+    setSignupData({ ...signupData, [e.target.name]: e.target.value });
+  };
+  const handleFileData = (e) => {
+    setSignupData({ ...signupData, file: e.target.files?.[0] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(signupData);
+  };
+
   return (
     <div className="w-[45%] border-2 p-5 mx-auto rounded-md mt-8">
-      <form action="" className="flex flex-col gap-3">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <h1 className="font-bold text-2xl">SignUp</h1>
         <div>
           <Label htmlFor="fullname">FullName</Label>
@@ -16,7 +38,9 @@ const SignUp = () => {
             id="fullname"
             placeholder="Enter Your FullName"
             className="py-4"
-            name=""
+            name="fullname"
+            value={signupData.fullname}
+            onChange={handleSignupData}
           />
         </div>
         <div>
@@ -26,7 +50,9 @@ const SignUp = () => {
             id="email"
             placeholder="Enter Your Email"
             className="py-4"
-            name=""
+            name="email"
+            value={signupData.email}
+            onChange={handleSignupData}
           />
         </div>
         <div>
@@ -36,7 +62,9 @@ const SignUp = () => {
             id="phone"
             placeholder="Enter Your Phone Number"
             className="py-4"
-            name=""
+            name="phoneNumber"
+            value={signupData.phoneNumber}
+            onChange={handleSignupData}
           />
         </div>
         <div>
@@ -46,19 +74,37 @@ const SignUp = () => {
             id="pswd"
             placeholder="Enter Your Password"
             className="py-4"
-            name=""
+            name="password"
+            value={signupData.password}
+            onChange={handleSignupData}
           />
         </div>
         <div className="flex justify-between">
           <div className="flex gap-4">
-            <div className="flex items-center gap-2 text-md">
-              <input type="radio" name="" id="student" />
-              <Label htmlFor="student">Student</Label>
-            </div>
-            <div className="flex items-center gap-2">
-              <input type="radio" name="" id="recruiter" />
-              <Label htmlFor="recruiter">Recruiter</Label>
-            </div>
+            <RadioGroup className="flex gap-4 text-md">
+              <div className="flex items-center gap-3">
+                <input
+                  type="radio"
+                  name="role"
+                  id="student"
+                  value="student"
+                  checked={signupData.role === "student"}
+                  onChange={handleSignupData}
+                />
+                <Label htmlFor="student">Student</Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="radio"
+                  name="role"
+                  id="recruiter"
+                  value="recruiter"
+                  checked={signupData.role === "recruiter"}
+                  onChange={handleSignupData}
+                />
+                <Label htmlFor="recruiter">Recruiter</Label>
+              </div>
+            </RadioGroup>
           </div>
           <div className="flex w-full max-w-sm items-center gap-2">
             <Label htmlFor="picture" className="font-semibold">
@@ -66,14 +112,18 @@ const SignUp = () => {
             </Label>
             <Input
               id="picture"
+              accept="image/*"
               type="file"
-              className=" file:text-black file:font-bold py-2"
+              className=" file:text-black file:font-bold py-2 cursor-pointer"
+              onChange={handleFileData}
             />
           </div>
         </div>
+        <Button type="submit" className="w-full font-bold text-md py-5">
+          Submit
+        </Button>
       </form>
       <div className="flex gap-4 mt-6 flex-col">
-        <Button className="w-full font-bold text-md py-5">Submit</Button>
         <p>
           Already have an account?{" "}
           <Link className="text-blue-600 font-bold" to="/login">
