@@ -1,15 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { USER_END_POINT } from "@/utils/constant";
+import { setAuthUser } from "@/redux/authSlice.js";
+import { USER_END_POINT } from "@/utils/constant.js";
 import { Label } from "@radix-ui/react-label";
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [loginData, setLoginData] = useState({
     email: "",
@@ -33,6 +36,7 @@ const Login = () => {
       if (res.data.success) {
         navigate("/");
         toast.success(res.data.message);
+        dispatch(setAuthUser(res.data));
       }
     } catch (error) {
       console.log(error);
