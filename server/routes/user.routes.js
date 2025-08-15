@@ -10,9 +10,9 @@ import { upload } from "../middlewares/multer.js";
 
 const router = express.Router();
 
-router.post("/signup",upload, signup);
+router.post("/signup", upload, signup);
 router.post("/login", login);
-router.post("/profile/update", isAuthenticated, updateProfile);
+router.post("/profile/update", isAuthenticated, upload, updateProfile);
 router.get("/logout", logout);
 
 export default router;

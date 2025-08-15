@@ -1,24 +1,25 @@
 import "./App.css";
-import { Button } from "@/components/ui/button";
+import { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Navbar from "./pages/Navbar";
-import Login from "./authentication/Login";
-import SignUp from "./authentication/SignUp";
+import { Button } from "@/components/ui/button";
+const Navbar = lazy(() => import("./pages/Navbar.jsx"));
+const SignUp = lazy(() => import("./authentication/SignUp.jsx"));
+const Login = lazy(() => import("./authentication/Login"));
+import Home from "./pages/Home";
+import Jobs from "./pages/Jobs";
+import Browse from "./pages/Browse.jsx";
+import Profile from "./pages/Profile";
+import JobDescription from "./pages/JobDescription";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <>
-        <Navbar />
-      </>
-    ),
+    element: <Home />,
   },
   {
     path: "/login",
     element: (
       <>
-        <Navbar />
         <Login />
       </>
     ),
@@ -27,8 +28,39 @@ const router = createBrowserRouter([
     path: "/signup",
     element: (
       <>
-        <Navbar />
         <SignUp />
+      </>
+    ),
+  },
+  {
+    path: "/jobs",
+    element: (
+      <>
+        <Jobs />
+      </>
+    ),
+  },
+  {
+    path: "/browse",
+    element: (
+      <>
+        <Browse />
+      </>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <>
+        <Profile />
+      </>
+    ),
+  },
+  {
+    path: "/description/:id",
+    element: (
+      <>
+        <JobDescription />
       </>
     ),
   },
@@ -36,9 +68,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <RouterProvider router={router} />
-    </>
+    </Suspense>
   );
 }
 
