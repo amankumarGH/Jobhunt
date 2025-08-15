@@ -24,9 +24,9 @@ A full-stack job portal web application where job seekers can search, apply for 
 
 ## 🛠 Tech Stack
 
-**Frontend:** React.js, Tailwind CSS, ShadCN UI Components
-**Backend:** Node.js, Express.js
-**Database:** MongoDB (MongoDB Atlas for cloud storage), Cloudinary(for files storage)
+**Frontend:** React.js, Tailwind CSS, ShadCN UI Components<br/>
+**Backend:** Node.js, Express.js<br/>
+**Database:** MongoDB (MongoDB Atlas for cloud storage), Cloudinary(for files storage)<br/>
 **Tools & Others:** Redux Toolkit (state management), Axios (API requests), Postman (API testing)
 
 
