@@ -11,6 +11,24 @@ A full-stack job portal web application where job seekers can search, apply for 
 - Apply for Jobs: Submit applications directly from the platform.
 - Track Applied Jobs: View all jobs the user has applied to.
 
+### 🏢 Employer Features
+
+- Job Posting: Create and manage job listings.
+- View Applicants: See profiles and resumes of applicants.
+
+### 🌟 Additional Features
+
+- Responsive UI for desktop and mobile.
+- Persistent Login using local storage and JWT.
+- Form validation for inputs and file uploads.
+
+## 🛠 Tech Stack
+
+**Frontend:** React.js, Tailwind CSS, ShadCN UI Components
+**Backend:** Node.js, Express.js
+**Database:** MongoDB (MongoDB Atlas for cloud storage), Cloudinary(for files storage)
+**Tools & Others:** Redux Toolkit (state management), Axios (API requests), Postman (API testing)
+
 
 
 
